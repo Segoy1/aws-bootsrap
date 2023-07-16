@@ -6,7 +6,6 @@ Parameters:
     Description: 'The S3 bucket for CodePipeline artifacts.'
     
 Resources:
-
   CodePipelineS3Bucket:
     Type: AWS::S3::Bucket
     DeletionPolicy: Retain
