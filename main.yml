@@ -191,14 +191,11 @@ Resources:
     Type: AWS::EC2::Instance
     CreationPolicy:
       ResourceSignal:
-        Timeout: PT5M
+        Timeout: PT15M
         Count: 1
     Metadata:
       AWS::CloudFormation::Init:
         config:
-          packages:
-            yum:
-             ruby: []
           files:
             /home/ec2-user/install:
               source: !Sub "https://aws-codedeploy-${AWS::Region}.s3.amazonaws.com/latest/install"
@@ -228,6 +225,9 @@ Resources:
             # Get latest cfn scripts; https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/bestpractices.html#cfninit
             yum install -y aws-cfn-bootstrap
             
+            # install ruby here because it did not work in yaml with yum for whatever reason
+            yum install -y ruby
+            
             cat > /tmp/install_script.sh << EOF
               # START
               echo "Setting up NodeJS Environment"
@@ -244,11 +244,6 @@ Resources:
               
               # Create log directory
               mkdir -p /home/ec2-user/app/logs
-              
-              # Run server
-              cd app
-              npm install
-              npm start
             EOF
             
             chown ec2-user:ec2-user /tmp/install_script.sh && chmod a+x /tmp/install_script.sh
