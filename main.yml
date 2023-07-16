@@ -121,21 +121,21 @@ Resources:
       Stages:
         - Name: Source
           Actions:
-          - Name: Source
-            ActionTypeId:
-              Category: Source
-              Owner: ThirdParty
-              Version: 1
-              Provider: GitHub
-            OutputArtifacts:
-              - Name: Source
-            Configuration:
-              Owner: !Ref GitHubOwner
-              Repo: !Ref GitHubRepo
-              Branch: !Ref GitHubBranch
-              OAuthToken: !Ref GitHubPersonalAccessToken
-              PollForSourceChanges: false
-            RunOrder: 1
+            - Name: Source
+              ActionTypeId:
+                Category: Source
+                Owner: ThirdParty
+                Version: 1
+                Provider: GitHub
+              OutputArtifacts:
+                - Name: Source
+              Configuration:
+                Owner: !Ref GitHubOwner
+                Repo: !Ref GitHubRepo
+                Branch: !Ref GitHubBranch
+                OAuthToken: !Ref GitHubPersonalAccessToken
+                PollForSourceChanges: false
+              RunOrder: 1
         - Name: Build
           Actions:
             - Name: Build
