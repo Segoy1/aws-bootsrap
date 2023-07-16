@@ -26,5 +26,4 @@ if [ $? -eq 0 ]; then
 		--query "Exports[?Name=='InstanceEndpoint'].Value"
 fi
 
-timeout 2000s sleep 1000s
 
