@@ -11,8 +11,7 @@ REGION="${LONG_REGION##*: }"
 
 # Query the EC2 metadata service for this instance's instance-id
 export INSTANCE_ID=`less /var/lib/cloud/data/instance-id`
-# Query EC2 describeTags method and pull our the CFN Logical ID for this
-instance
+# Query EC2 describeTags method and pull our the CFN Logical ID for this instance
 export STACK_NAME=`aws --region $REGION ec2 describe-tags \
 	--filters "Name=resource-id,Values=${INSTANCE_ID}" \
 				"Name=key,Values=aws:cloudformation:stack-name" \
