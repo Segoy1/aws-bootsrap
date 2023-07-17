@@ -7,7 +7,7 @@ cd /home/ec2-user/app/release
 #document | jq .region -r`
 #ugly workaround because ip call gets 401
 LONG_REGION=$(ec2-metadata --availability-zone)
-REGION="${LONG_REGION##*:}"
+REGION="${LONG_REGION##*: }"
 
 # Query the EC2 metadata service for this instance's instance-id
 export INSTANCE_ID=`less /var/lib/cloud/data/instance-id`
