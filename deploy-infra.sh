@@ -6,6 +6,9 @@ STACK_NAME=awsbootstrap
 REGION=eu-central-1
 CLI_PROFILE=awsbootstrap
 
+CERT=`aws acm list-certificates --region $REGION --profile awsbootstrap --output text \
+	--query "CertificateSummaryList[?DomainName=='$DOMAIN'].CertificateArn | [0]"`
+
 
 EC2_INSTANCE_TYPE=t2.micro
 
@@ -62,6 +65,7 @@ aws cloudformation deploy \
 	--parameter-overrides \
 		EC2InstanceType=$EC2_INSTANCE_TYPE \
 		Domain=$DOMAIN \
+		Certificate=$CERT \
 		GitHubOwner=$GH_OWNER \
 		GitHubRepo=$GH_REPO \
 		GitHubBranch=$GH_BRANCH \
