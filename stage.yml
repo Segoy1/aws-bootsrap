@@ -5,7 +5,7 @@ Parameters:
   EC2InstanceType:
     Type: String
   EC2AMI:
-    Type: 'AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>'
+    Type: 'AWS::EC2::Image::Id'
     Default: '/aws/service/ami-amazon-linux-latest/al2023-ami-kernel-default-x86_64'
 
 Resources:
@@ -133,8 +133,6 @@ Resources:
               /opt/aws/bin/cfn-init -v --stack ${AWS::StackName} --region ${AWS::Region} --resource InstanceLaunchTemplate    
               
               # Query the EC2 metadata service for this instance's instance-id
-              # export INSTANCE_ID=`curl -s http://169.254.169.254/latest/metadata/instance-id`
-              #much cleaner way to get instance id 
               TOKEN=`curl -X PUT "http://169.254.169.254/latest/api/token" -H "X-aws-ec2-metadata-token-ttl-seconds: 21600"`
               export INSTANCE_ID=`curl -H "X-aws-ec2-metadata-token: $TOKEN" -v http://169.254.169.254/latest/meta-data/instance-id`
               
@@ -305,8 +303,6 @@ Outputs:
   LBEndpoint:
     Description: The DNS name for the LB
     Value: !Sub "http://${LoadBalancer.DNSName}:80"
-    Export:
-      Name: LBEndpoint
   ScalingGroup:
     Description: The ScalingGroup for this stage
     Value: !Ref ScalingGroup
