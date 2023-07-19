@@ -8,6 +8,12 @@ Parameters:
     Type: 'AWS::EC2::Image::Id'
     Default: '/aws/service/ami-amazon-linux-latest/al2023-ami-kernel-default-x86_64'
 
+
+  Domain:
+    Type: String
+  SubDomain:
+    Type: String
+    
 Resources:
 
   SecurityGroup:
@@ -297,12 +303,22 @@ Resources:
         - Key: Name
           Value: !Ref AWS::StackName
           PropagateAtLaunch: "true"
+          
+  DNS:
+    Type: AWS::Route53::RecordSet
+    Properties:
+      HostedZoneName: !Sub '${Domain}.'
+      Name: !Sub '${SubDomain}.${Domain}.'
+      Type: A
+      AliasTarget:
+        HostedZoneId: !GetAtt LoadBalancer.CanonicalHostedZoneID
+        DNSName: !GetAtt LoadBalancer.DNSName
         
 Outputs:
 
   LBEndpoint:
     Description: The DNS name for the LB
-    Value: !Sub "http://${LoadBalancer.DNSName}:80"
+    Value: !Sub "http://${DNS}:80"
   ScalingGroup:
     Description: The ScalingGroup for this stage
     Value: !Ref ScalingGroup
