@@ -16,7 +16,7 @@ if (fs.existsSync(httpsKey) && fs.existsSync(httpsCert)) {
 	const message = `Hello World from ${hostname} in ${STACK_NAME}\n`;
 	const options = { key: fs.readFileSync(httpsKey), cert:
 fs.readFileSync(httpsCert) };
-	const server = https.createServer(options, (req, res) => { ❺
+	const server = https.createServer(options, (req, res) => {
 		res.statusCode = 200;
 		res.setHeader('Content-Type', 'text/plain');
 		res.end(message);
@@ -28,7 +28,7 @@ fs.readFileSync(httpsCert) };
 
 console.log('Starting http server')
 const message = `Hello HTTP World from ${hostname()} in ${STACK_NAME}\n`;
-const server = http.createServer((req, res) => { ❻
+const server = http.createServer((req, res) => {
 	res.statusCode = 200;
 	res.setHeader('Content-Type', 'text/plain');
 	res.end(message);
